@@ -1,0 +1,1496 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Licenta - Premium License Management Solution</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #7b68ee;
+            --primary-dark: #6a5acd;
+            --primary-light: #9d8df1;
+            --dark: #0a0a12;
+            --dark-card: #12121f;
+            --light: #ffffff;
+            --gray: #8c8ca0;
+            --border-radius: 12px;
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--dark);
+            color: var(--light);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        /* Typography */
+        h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            line-height: 1.2;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(90deg, var(--light) 0%, #d1c4ff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+        }
+
+        h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        p {
+            margin-bottom: 1.5rem;
+            color: var(--gray);
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-block;
+            padding: 14px 32px;
+            border-radius: 8px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .btn::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 0;
+            background: rgba(255, 255, 255, 0.1);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: -1;
+        }
+
+        .btn:hover::after {
+            height: 100%;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: var(--light);
+            border: none;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(123, 104, 238, 0.4);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--light);
+            border: 2px solid var(--primary);
+            padding: 12px 30px;
+        }
+
+        .btn-outline:hover {
+            background: rgba(123, 104, 238, 0.1);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(123, 104, 238, 0.2);
+        }
+
+        /* Header */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            padding: 20px 0;
+            transition: var(--transition);
+        }
+
+        .header.scrolled {
+            background: rgba(10, 10, 18, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            padding: 15px 0;
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--primary);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .logo::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary-light);
+            transition: all 0.3s ease;
+        }
+
+        .logo:hover {
+            color: var(--primary-light);
+        }
+
+        .logo:hover::after {
+            width: 100%;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-link {
+            color: var(--light);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+            padding: 5px 0;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary);
+            transition: all 0.3s ease;
+        }
+
+        .nav-link:hover {
+            color: var(--primary);
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .hamburger {
+            display: none;
+            cursor: pointer;
+            font-size: 1.5rem;
+            color: var(--light);
+            transition: all 0.3s ease;
+        }
+
+        .hamburger:hover {
+            color: var(--primary);
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 180px 0 100px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 70% 30%, rgba(123, 104, 238, 0.15), transparent 70%);
+            z-index: -1;
+        }
+
+        .hero-content {
+            max-width: 600px;
+            margin-bottom: 50px;
+        }
+
+        .hero-subtitle {
+            font-size: 1.2rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+            font-weight: 600;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.8s forwards 0.2s;
+        }
+
+        .hero-title {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.8s forwards 0.4s;
+        }
+
+        .hero-description {
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.8s forwards 0.6s;
+        }
+
+        .hero-cta {
+            display: flex;
+            gap: 1rem;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.8s forwards 0.8s;
+        }
+
+        .hero-image {
+            position: absolute;
+            top: 120px;
+            right: -100px;
+            width: 700px;
+            height: 500px;
+            background: rgba(123, 104, 238, 0.05);
+            border-radius: 12px;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.3);
+            opacity: 0;
+            transform: translateX(50px);
+            animation: fadeInRight 1s forwards 1s;
+            overflow: hidden;
+            transition: all 0.5s ease;
+        }
+
+        .hero-image:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 40px 70px rgba(123, 104, 238, 0.4);
+        }
+
+        .hero-image::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(123, 104, 238, 0.1) 0%, transparent 100%);
+            z-index: 1;
+        }
+
+        /* Features Section */
+        .features {
+            padding: 100px 0;
+        }
+
+        .section-header {
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto 60px;
+        }
+
+        .section-title {
+            margin-bottom: 1rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50px;
+            height: 3px;
+            background: var(--primary);
+            transition: all 0.3s ease;
+        }
+
+        .section-header:hover .section-title::after {
+            width: 100px;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .feature-card {
+            background: var(--dark-card);
+            border-radius: var(--border-radius);
+            padding: 30px;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            height: 100%;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+            border: 1px solid transparent;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 0;
+            background: linear-gradient(135deg, rgba(123, 104, 238, 0.1) 0%, rgba(123, 104, 238, 0.05) 100%);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: -1;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-15px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(123, 104, 238, 0.3);
+        }
+
+        .feature-card:hover::before {
+            height: 100%;
+        }
+
+        .feature-icon {
+            width: 60px;
+            height: 60px;
+            background: rgba(123, 104, 238, 0.1);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            color: var(--primary);
+            font-size: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover .feature-icon {
+            background: var(--primary);
+            color: var(--light);
+            transform: scale(1.1);
+        }
+
+        .feature-title {
+            margin-bottom: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover .feature-title {
+            color: var(--primary-light);
+        }
+
+        /* Dashboard Section */
+        .dashboard {
+            padding: 100px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .dashboard::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 30% 70%, rgba(123, 104, 238, 0.15), transparent 70%);
+            z-index: -1;
+        }
+
+        .dashboard-content {
+            display: flex;
+            align-items: center;
+            gap: 50px;
+        }
+
+        .dashboard-text {
+            flex: 1;
+        }
+
+        .dashboard-image {
+            flex: 1.5;
+            position: relative;
+        }
+
+        .dashboard-screenshot {
+            width: 100%;
+            height: 500px;
+            background: var(--dark-card);
+            border-radius: var(--border-radius);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.3);
+            transition: all 0.5s ease;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .dashboard-screenshot:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 40px 70px rgba(123, 104, 238, 0.4);
+        }
+
+        .dashboard-screenshot::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(123, 104, 238, 0.1) 0%, transparent 100%);
+            z-index: 1;
+            opacity: 0;
+            transition: all 0.5s ease;
+        }
+
+        .dashboard-screenshot:hover::before {
+            opacity: 1;
+        }
+
+        .dashboard-feature {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 30px;
+            transition: all 0.3s ease;
+            padding: 15px;
+            border-radius: 8px;
+        }
+
+        .dashboard-feature:hover {
+            background: rgba(123, 104, 238, 0.05);
+            transform: translateX(10px);
+        }
+
+        .dashboard-feature-icon {
+            min-width: 40px;
+            height: 40px;
+            background: rgba(123, 104, 238, 0.1);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            color: var(--primary);
+            transition: all 0.3s ease;
+        }
+
+        .dashboard-feature:hover .dashboard-feature-icon {
+            background: var(--primary);
+            color: var(--light);
+            transform: rotate(10deg);
+        }
+
+        /* Security Section */
+        .security {
+            padding: 100px 0;
+            background: linear-gradient(180deg, var(--dark) 0%, rgba(18, 18, 31, 1) 100%);
+        }
+
+        .security-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+        }
+
+        .security-card {
+            background: var(--dark-card);
+            border-radius: var(--border-radius);
+            padding: 30px;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+            border: 1px solid transparent;
+        }
+
+        .security-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 0;
+            background: var(--primary);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: -1;
+        }
+
+        .security-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(123, 104, 238, 0.3);
+        }
+
+        .security-card:hover::before {
+            height: 100%;
+        }
+
+        .security-icon {
+            width: 50px;
+            height: 50px;
+            background: rgba(123, 104, 238, 0.1);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            color: var(--primary);
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+        }
+
+        .security-card:hover .security-icon {
+            background: var(--primary);
+            color: var(--light);
+            transform: scale(1.1) rotate(10deg);
+        }
+
+        /* API Section */
+        .api {
+            padding: 100px 0;
+        }
+
+        .api-content {
+            display: flex;
+            align-items: center;
+            gap: 50px;
+        }
+
+        .api-text {
+            flex: 1;
+        }
+
+        .api-code {
+            flex: 1.5;
+            background: var(--dark-card);
+            border-radius: var(--border-radius);
+            padding: 30px;
+            position: relative;
+            height: 400px;
+            transition: all 0.5s ease;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .api-code:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .code-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .code-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .api-code:hover .code-dot {
+            transform: scale(1.2);
+        }
+
+        .code-dot.red {
+            background: #ff5f57;
+        }
+
+        .code-dot.yellow {
+            background: #febc2e;
+        }
+
+        .code-dot.green {
+            background: #28c840;
+        }
+
+        .code-content {
+            font-family: monospace;
+            color: #e0e0e0;
+            line-height: 1.6;
+            overflow: auto;
+            height: calc(100% - 40px);
+            position: relative;
+        }
+
+        .code-content::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 30px;
+            background: linear-gradient(to top, var(--dark-card), transparent);
+            pointer-events: none;
+        }
+
+        .code-line {
+            display: flex;
+            transition: all 0.3s ease;
+        }
+
+        .code-line:hover {
+            background: rgba(255, 255, 255, 0.05);
+            transform: translateX(5px);
+        }
+
+        .line-number {
+            color: #606060;
+            min-width: 30px;
+            text-align: right;
+            padding-right: 15px;
+        }
+
+        .line-content {
+            flex: 1;
+        }
+
+        .keyword {
+            color: #ff79c6;
+        }
+
+        .string {
+            color: #f1fa8c;
+        }
+
+        .function {
+            color: #50fa7b;
+        }
+
+        .comment {
+            color: #6272a4;
+        }
+
+        /* Pricing Section */
+        .pricing {
+            padding: 100px 0;
+            background: linear-gradient(180deg, rgba(18, 18, 31, 1) 0%, var(--dark) 100%);
+        }
+
+        .pricing-card {
+            background: var(--dark-card);
+            border-radius: var(--border-radius);
+            padding: 40px;
+            text-align: center;
+            max-width: 500px;
+            margin: 0 auto;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(123, 104, 238, 0.2);
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-15px);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(123, 104, 238, 0.5);
+        }
+
+        .pricing-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, var(--primary) 0%, #9d8df1 100%);
+            transition: all 0.3s ease;
+        }
+
+        .pricing-card:hover::before {
+            height: 8px;
+        }
+
+        .pricing-title {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .pricing-card:hover .pricing-title {
+            color: var(--primary-light);
+        }
+
+        .pricing-price {
+            font-size: 3rem;
+            font-weight: 800;
+            color: var(--primary);
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .pricing-card:hover .pricing-price {
+            transform: scale(1.1);
+        }
+
+        .pricing-duration {
+            font-size: 1rem;
+            color: var(--gray);
+        }
+
+        .pricing-features {
+            list-style: none;
+            margin: 30px 0;
+            text-align: left;
+        }
+
+        .pricing-feature {
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            transition: all 0.3s ease;
+            padding: 5px 0;
+        }
+
+        .pricing-feature:hover {
+            transform: translateX(5px);
+            color: var(--primary-light);
+        }
+
+        .pricing-feature i {
+            color: var(--primary);
+            margin-right: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .pricing-feature:hover i {
+            transform: scale(1.2);
+        }
+
+        /* CTA Section */
+        .cta {
+            padding: 100px 0;
+            text-align: center;
+        }
+
+        .cta-content {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .cta-title {
+            margin-bottom: 20px;
+            position: relative;
+            display: inline-block;
+        }
+
+        .cta-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50px;
+            height: 3px;
+            background: var(--primary);
+            transition: all 0.3s ease;
+        }
+
+        .cta-content:hover .cta-title::after {
+            width: 100px;
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--dark-card);
+            padding: 40px 0;
+        }
+
+        .footer-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .footer-left {
+            display: flex;
+            align-items: center;
+        }
+
+        .footer-logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-right: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .footer-logo:hover {
+            color: var(--primary-light);
+            transform: scale(1.1);
+        }
+
+        .footer-copyright {
+            color: var(--gray);
+            transition: all 0.3s ease;
+        }
+
+        .footer-left:hover .footer-copyright {
+            color: var(--light);
+        }
+
+        .footer-right {
+            display: flex;
+            align-items: center;
+        }
+
+        .developer-text {
+            margin-right: 10px;
+            color: var(--gray);
+            transition: all 0.3s ease;
+        }
+
+        .developer-logo {
+            width: 32px;
+            height: 32px;
+            background: var(--gray);
+            border-radius: 50%;
+            transition: all 0.3s ease;
+            overflow: hidden;
+        }
+
+        .footer-right:hover .developer-text {
+            color: var(--light);
+        }
+
+        .footer-right:hover .developer-logo {
+            transform: rotate(360deg);
+            box-shadow: 0 0 15px rgba(123, 104, 238, 0.7);
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInRight {
+            from {
+                opacity: 0;
+                transform: translateX(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+            100% {
+                transform: translateY(0px);
+            }
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                box-shadow: 0 0 0 0 rgba(123, 104, 238, 0.4);
+            }
+            70% {
+                transform: scale(1.05);
+                box-shadow: 0 0 0 10px rgba(123, 104, 238, 0);
+            }
+            100% {
+                transform: scale(1);
+                box-shadow: 0 0 0 0 rgba(123, 104, 238, 0);
+            }
+        }
+
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .animate-on-scroll.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .animate-float {
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .animate-pulse {
+            animation: pulse 2s infinite;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 1200px) {
+            .hero-image {
+                width: 600px;
+                height: 450px;
+                right: -150px;
+            }
+        }
+
+        @media (max-width: 992px) {
+            h1 {
+                font-size: 3rem;
+            }
+
+            .feature-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .hero-image {
+                width: 500px;
+                height: 400px;
+                right: -200px;
+            }
+
+            .dashboard-content,
+            .api-content {
+                flex-direction: column;
+            }
+
+            .dashboard-image,
+            .api-code {
+                width: 100%;
+            }
+
+            .security-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+
+            .hamburger {
+                display: block;
+            }
+
+            .nav-menu {
+                position: fixed;
+                top: 80px;
+                left: -100%;
+                flex-direction: column;
+                background: var(--dark-card);
+                width: 100%;
+                padding: 20px 0;
+                text-align: center;
+                transition: 0.3s;
+                box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+                gap: 1.5rem;
+            }
+
+            .nav-menu.active {
+                left: 0;
+            }
+
+            .feature-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .hero {
+                padding: 150px 0 80px;
+            }
+
+            .hero-image {
+                position: relative;
+                width: 100%;
+                height: 300px;
+                right: 0;
+                top: 0;
+                margin-top: 50px;
+            }
+
+            .footer-container {
+                flex-direction: column;
+                gap: 20px;
+                text-align: center;
+            }
+
+            .footer-left {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            h1 {
+                font-size: 2rem;
+            }
+
+            .hero-cta {
+                flex-direction: column;
+                width: 100%;
+            }
+
+            .btn {
+                width: 100%;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container header-container">
+            <a href="#" class="logo">Licenta</a>
+            <nav>
+                <ul class="nav-menu">
+                    <li><a href="#features" class="nav-link">Features</a></li>
+                    <li><a href="#dashboard" class="nav-link">Dashboard</a></li>
+                    <li><a href="#security" class="nav-link">Security</a></li>
+                    <li><a href="#api" class="nav-link">API</a></li>
+                    <li><a href="#pricing" class="nav-link">Pricing</a></li>
+                    <li><a href="#cta" class="btn btn-primary">Get Started</a></li>
+                </ul>
+                <div class="hamburger">
+                    <i class="fas fa-bars"></i>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-subtitle">License Management Made Easy</div>
+                <h1 class="hero-title">Secure Your Software With Powerful Licensing</h1>
+                <p class="hero-description">Effortlessly manage licenses with our fully automated system, web dashboard, Discord bot integration, and comprehensive API.</p>
+                <div class="hero-cta">
+                    <a href="#pricing" class="btn btn-primary">Get Started</a>
+                    <a href="#features" class="btn btn-outline">Explore Features</a>
+                </div>
+            </div>
+            <div class="hero-image animate-float">
+                <!-- Dashboard preview image: 700x500px -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features" id="features">
+        <div class="container">
+            <div class="section-header animate-on-scroll">
+                <h2 class="section-title">Powerful Features</h2>
+                <p>Everything you need to manage and secure your software licenses in one place.</p>
+            </div>
+            <div class="feature-grid">
+                <div class="feature-card animate-on-scroll">
+                    <div class="feature-icon">
+                        <i class="fas fa-tachometer-alt"></i>
+                    </div>
+                    <h3 class="feature-title">User-Friendly Dashboard</h3>
+                    <p>Manage all your licenses and monitor usage with ease from a single, intuitive dashboard.</p>
+                </div>
+                <div class="feature-card animate-on-scroll">
+                    <div class="feature-icon">
+                        <i class="fab fa-discord"></i>
+                    </div>
+                    <h3 class="feature-title">Discord Bot Integration</h3>
+                    <p>Manage licenses with Discord commands and receive real-time notifications.</p>
+                </div>
+                <div class="feature-card animate-on-scroll">
+                    <div class="feature-icon">
+                        <i class="fas fa-chart-bar"></i>
+                    </div>
+                    <h3 class="feature-title">License Tracking & Logging</h3>
+                    <p>Track every license request with detailed logs, real-time notifications, and invaluable statistics.</p>
+                </div>
+                <div class="feature-card animate-on-scroll">
+                    <div class="feature-icon">
+                        <i class="fas fa-cube"></i>
+                    </div>
+                    <h3 class="feature-title">BuildByBit Integration</h3>
+                    <p>Easily automate license creation through BuildByBit Postbacks for seamless e-commerce.</p>
+                </div>
+                <div class="feature-card animate-on-scroll">
+                    <div class="feature-icon">
+                        <i class="fas fa-comment-alt"></i>
+                    </div>
+                    <h3 class="feature-title">Custom Discord Embeds</h3>
+                    <p>Personalize Discord notifications with custom embeds for better visibility and branding.</p>
+                </div>
+                <div class="feature-card animate-on-scroll">
+                    <div class="feature-icon">
+                        <i class="fas fa-server"></i>
+                    </div>
+                    <h3 class="feature-title">Pterodactyl Support</h3>
+                    <p>Seamlessly integrate with Pterodactyl panel for server management and licensing.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Dashboard Section -->
+    <section class="dashboard" id="dashboard">
+        <div class="container">
+            <div class="dashboard-content">
+                <div class="dashboard-text animate-on-scroll">
+                    <h2>Powerful Dashboard</h2>
+                    <p>Our intuitive dashboard gives you complete control over your licensing system with real-time insights and powerful management tools.</p>
+                    <div class="dashboard-feature">
+                        <div class="dashboard-feature-icon">
+                            <i class="fas fa-key"></i>
+                        </div>
+                        <div>
+                            <h3>License Management</h3>
+                            <p>Create, edit, and manage licenses with ease. Set expiration dates, usage limits, and more.</p>
+                        </div>
+                    </div>
+                    <div class="dashboard-feature">
+                        <div class="dashboard-feature-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <div>
+                            <h3>Real-time Analytics</h3>
+                            <p>Monitor license usage, track activations, and gain valuable insights into your software distribution.</p>
+                        </div>
+                    </div>
+                    <div class="dashboard-feature">
+                        <div class="dashboard-feature-icon">
+                            <i class="fas fa-bell"></i>
+                        </div>
+                        <div>
+                            <h3>Instant Notifications</h3>
+                            <p>Receive alerts for important events like new activations, suspicious activities, or license expirations.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="dashboard-image animate-on-scroll">
+                    <div class="dashboard-screenshot animate-float">
+                        <!-- Dashboard screenshot: 600x500px -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Security Section -->
+    <section class="security" id="security">
+        <div class="container">
+            <div class="section-header animate-on-scroll">
+                <h2 class="section-title">Advanced Security</h2>
+                <p>Protect your software with multiple layers of security to prevent unauthorized usage.</p>
+            </div>
+            <div class="security-grid">
+                <div class="security-card animate-on-scroll">
+                    <div class="security-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3>IP & HWID Protection</h3>
+                    <p>Secure your software by blocking unauthorized IPs and hardware IDs, preventing license sharing and piracy.</p>
+                </div>
+                <div class="security-card animate-on-scroll">
+                    <div class="security-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <h3>Temporary Licenses</h3>
+                    <p>Create time-limited licenses that automatically expire after a specified period, perfect for trials and subscriptions.</p>
+                </div>
+                <div class="security-card animate-on-scroll">
+                    <div class="security-icon">
+                        <i class="fas fa-lock"></i>
+                    </div>
+                    <h3>Encrypted Communication</h3>
+                    <p>All license verifications use secure, encrypted connections to prevent tampering and ensure data integrity.</p>
+                </div>
+                <div class="security-card animate-on-scroll">
+                    <div class="security-icon">
+                        <i class="fas fa-history"></i>
+                    </div>
+                    <h3>Comprehensive Logging</h3>
+                    <p>Track all license activities with detailed logs, helping you identify and respond to suspicious behavior.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- API Section -->
+    <section class="api" id="api">
+        <div class="container">
+            <div class="api-content">
+                <div class="api-text animate-on-scroll">
+                    <h2>Developer-Friendly API</h2>
+                    <p>Integrate Licenta into your software with our easy-to-use RESTful API and Java library.</p>
+                    <p>Our comprehensive documentation and example code make implementation a breeze, allowing you to secure your software in minutes.</p>
+                    <a href="#" class="btn btn-primary animate-pulse">View Documentation</a>
+                </div>
+                <div class="api-code animate-on-scroll">
+                    <div class="code-header">
+                        <div class="code-dot red"></div>
+                        <div class="code-dot yellow"></div>
+                        <div class="code-dot green"></div>
+                    </div>
+                    <div class="code-content">
+                        <div class="code-line">
+                            <span class="line-number">1</span>
+                            <span class="line-content"><span class="comment">// Example Java implementation</span></span>
+                        </div>
+                        <div class="code-line">
+                            <span class="line-number">2</span>
+                            <span class="line-content"><span class="keyword">import</span> com.licenta.api.LicentaAPI;</span>
+                        </div>
+                        <div class="code-line">
+                            <span class="line-number">3</span>
+                            <span class="line-content"></span>
+                        </div>
+                        <div class="code-line">
+                            <span class="line-number">4</span>
+                            <span class="line-content"><span class="keyword">public class</span> <span class="function">LicenseVerifier</span> {</span>
+                        </div>
+                        <div class="code-line">
+                            <span class="line-number">5</span>
+                            <span class="line-content">    <span class="keyword">private</span> <span class="keyword">final</span> LicentaAPI api;</span>
+                        </div>
+                        <div class="code-line">
+                            <span class="line-number">6</span>
+                            <span class="line-content"></span>
+                        </div>
+                        <div class="code-line">
+                            <span class="line-number">7</span>
+                            <span class="line-content">    <span class="keyword">public</span> <span class="function">LicenseVerifier</span>(String productKey) {</span>
+                        </div>
+                        <div class="code-line">
+                            <span class="line-number">8</span>
+                            <span class="line-content">        <span class="keyword">this</span>.api = <span class="keyword">new</span> <span class="function">LicentaAPI</span>(productKey);</span>
+                        </div>
+                        <div class="code-line">
+                            <span class="line-number">9</span>
+                            <span class="line-content">    }</span>
+                        </div>
+                        <div class="code-line">
+                            <span class="line-number">10</span>
+                            <span class="line-content"></span>
+                        </div>
+                        <div class="code-line">
+                            <span class="line-number">11</span>
+                            <span class="line-content">    <span class="keyword">public boolean</span> <span class="function">verifyLicense</span>(String licenseKey) {</span>
+                        </div>
+                        <div class="code-line">
+                            <span class="line-number">12</span>
+                            <span class="line-content">        <span class="keyword">try</span> {</span>
+                        </div>
+                        <div class="code-line">
+                            <span class="line-number">13</span>
+                            <span class="line-content">            <span class="keyword">return</span> api.<span class="function">verify</span>(licenseKey);</span>
+                        </div>
+                        <div class="code-line">
+                            <span class="line-number">14</span>
+                            <span class="line-content">        } <span class="keyword">catch</span> (Exception e) {</span>
+                        </div>
+                        <div class="code-line">
+                            <span class="line-number">15</span>
+                            <span class="line-content">            e.<span class="function">printStackTrace</span>();</span>
+                        </div>
+                        <div class="code-line">
+                            <span class="line-number">16</span>
+                            <span class="line-content">            <span class="keyword">return false</span>;</span>
+                        </div>
+                        <div class="code-line">
+                            <span class="line-number">17</span>
+                            <span class="line-content">        }</span>
+                        </div>
+                        <div class="code-line">
+                            <span class="line-number">18</span>
+                            <span class="line-content">    }</span>
+                        </div>
+                        <div class="code-line">
+                            <span class="line-number">19</span>
+                            <span class="line-content">}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section class="pricing" id="pricing">
+        <div class="container">
+            <div class="section-header animate-on-scroll">
+                <h2 class="section-title">Simple, Transparent Pricing</h2>
+                <p>No hidden fees, no complicated tiers. Just one simple plan with everything you need.</p>
+            </div>
+            <div class="pricing-card animate-on-scroll">
+                <h3 class="pricing-title">Lifetime License</h3>
+                <div class="pricing-price">$14.99 <span class="pricing-duration">one-time payment</span></div>
+                <ul class="pricing-features">
+                    <li class="pricing-feature"><i class="fas fa-check"></i> Unlimited Products</li>
+                    <li class="pricing-feature"><i class="fas fa-check"></i> Unlimited Licenses</li>
+                    <li class="pricing-feature"><i class="fas fa-check"></i> Discord Bot Integration</li>
+                    <li class="pricing-feature"><i class="fas fa-check"></i> BuildByBit Integration</li>
+                    <li class="pricing-feature"><i class="fas fa-check"></i> IP & HWID Protection</li>
+                    <li class="pricing-feature"><i class="fas fa-check"></i> Comprehensive API</li>
+                    <li class="pricing-feature"><i class="fas fa-check"></i> Detailed Analytics</li>
+                    <li class="pricing-feature"><i class="fas fa-check"></i> Lifetime Updates</li>
+                </ul>
+                <a href="#" class="btn btn-primary animate-pulse">Get Started Now</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta" id="cta">
+        <div class="container">
+            <div class="cta-content animate-on-scroll">
+                <h2 class="cta-title">Ready to secure your software?</h2>
+                <p>Join thousands of developers who trust Licenta for their license management needs.</p>
+                <a href="#" class="btn btn-primary">Get Started Today</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container footer-container">
+            <div class="footer-left">
+                <div class="footer-logo">Licenta</div>
+                <div class="footer-copyright">© <span id="current-year">2025</span> Licenta. All rights reserved.</div>
+            </div>
+            <div class="footer-right">
+                <div class="developer-text">Developed by</div>
+                <div class="developer-logo">
+                    <!-- Developer logo: 32x32px -->
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set current year in footer
+            document.getElementById('current-year').textContent = new Date().getFullYear();
+
+            // Mobile menu toggle
+            const hamburger = document.querySelector('.hamburger');
+            const navMenu = document.querySelector('.nav-menu');
+
+            hamburger.addEventListener('click', () => {
+                navMenu.classList.toggle('active');
+            });
+
+            // Close mobile menu when clicking a nav link
+            document.querySelectorAll('.nav-link, .nav-menu .btn').forEach(link => {
+                link.addEventListener('click', () => {
+                    navMenu.classList.remove('active');
+                });
+            });
+
+            // Scroll animations
+            const animateElements = document.querySelectorAll('.animate-on-scroll');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            animateElements.forEach(element => {
+                observer.observe(element);
+            });
+
+            // Header scroll effect
+            const header = document.querySelector('.header');
+            
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    header.classList.add('scrolled');
+                } else {
+                    header.classList.remove('scrolled');
+                }
+            });
+
+            // Smooth scrolling for anchor links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    const targetId = this.getAttribute('href');
+                    if (targetId === '#') return;
+                    
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        window.scrollTo({
+                            top: targetElement.offsetTop - 80,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+
+            // Add hover effects to code lines
+            document.querySelectorAll('.code-line').forEach(line => {
+                line.addEventListener('mouseenter', () => {
+                    line.style.backgroundColor = 'rgba(255, 255, 255, 0.05)';
+                    line.style.transform = 'translateX(5px)';
+                });
+                
+                line.addEventListener('mouseleave', () => {
+                    line.style.backgroundColor = 'transparent';
+                    line.style.transform = 'translateX(0)';
+                });
+            });
+
+            // Add interactive elements to feature cards
+            document.querySelectorAll('.feature-card').forEach(card => {
+                card.addEventListener('mouseenter', () => {
+                    card.querySelector('.feature-icon').style.transform = 'scale(1.1) rotate(10deg)';
+                });
+                
+                card.addEventListener('mouseleave', () => {
+                    card.querySelector('.feature-icon').style.transform = 'scale(1)';
+                });
+            });
+        });
+    </script>
+</body>
+</html>
